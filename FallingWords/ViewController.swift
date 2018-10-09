@@ -13,8 +13,6 @@ class ViewController: UIViewController {
     var viewModel: ViewModel!
     var isWordMoving = false
     var userHasAnswered = false
-    
-//    var movingTranlation: Translation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,10 +26,11 @@ class ViewController: UIViewController {
     
     func showNewComination() {
         self.view.layoutIfNeeded()
-        viewModel.setTranslationToPlay()
+        viewModel.setPairOfTranslations(number: 5)
+        
         wordToTranslateLabel.text = viewModel.translationToPlay?.get(language: viewModel.languageFrom)
-        viewModel.setMovingTranslation(number: 5)
         newWordLabel.text = viewModel.movingTranlation?.get(language: self.viewModel.languageTo)
+        
         moveWordDown {
             self.isWordMoving = false
             

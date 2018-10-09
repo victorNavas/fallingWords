@@ -25,19 +25,9 @@ class ViewModel {
         translations = readWordsFromJson()
     }
     
-    func setTranslationToPlay() {
-        translationToPlay = translations.randomElement()
-    }
-    
-    func setMovingTranslation(number: Int) {
-        movingTranlation = getRandomTranslations(number).randomElement()
-    }
-    
-    func getRandomTranslations(_ number: Int) -> [Translation] {
-        guard let translation = translationToPlay else { return [] }
-        var randomTranslations = translations.filter({ $0.text_eng != translation.text_eng})[randomPick: number]
-        randomTranslations.append(translation)
-        return randomTranslations
+    func setPairOfTranslations(number: Int) {
+        setTranslationToPlay()
+        setMovingTranslation(number: number)
     }
     
     func addOkPoint() {
@@ -59,6 +49,21 @@ class ViewModel {
     func restart() {
         okPoints = 0
         nonOkPoints = 0
+    }
+    
+    private func setTranslationToPlay() {
+        translationToPlay = translations.randomElement()
+    }
+    
+    private func setMovingTranslation(number: Int) {
+        movingTranlation = getRandomTranslations(number).randomElement()
+    }
+    
+    private func getRandomTranslations(_ number: Int) -> [Translation] {
+        guard let translation = translationToPlay else { return [] }
+        var randomTranslations = translations.filter({ $0.text_eng != translation.text_eng})[randomPick: number]
+        randomTranslations.append(translation)
+        return randomTranslations
     }
     
     private func readWordsFromJson() -> [Translation] {

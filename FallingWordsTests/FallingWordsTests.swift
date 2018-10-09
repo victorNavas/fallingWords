@@ -14,10 +14,9 @@ class FallingWordsTests: XCTestCase {
     }
 
     func testInitViewModelReadsCorrectlyFromJson() {
-        viewModel.setTranslationToPlay()
-        // extra one expected, the correct translation
-        XCTAssertEqual(viewModel.getRandomTranslations(4).count, 5)
-        XCTAssertEqual(viewModel.getRandomTranslations(10).count, 11)
+        viewModel.setPairOfTranslations(number: 5)
+        XCTAssertFalse(viewModel.translationToPlay == nil)
+        XCTAssertFalse(viewModel.movingTranlation == nil)
     }
     
     func testAddNonOkOfPointIsIncreased() {
@@ -27,8 +26,7 @@ class FallingWordsTests: XCTestCase {
     }
     
     func testIsCorrectTranslation() {
-        viewModel.setTranslationToPlay()
-        viewModel.setMovingTranslation(number: 40)
+        viewModel.setPairOfTranslations(number: 5)
         XCTAssertFalse(viewModel.isCorrectTranslation)
     }
 

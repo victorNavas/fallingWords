@@ -16,9 +16,10 @@ Approximately 4 hours.
 Concept: 10%
 General Spike on how to aproach UI/ animations: 10%
 Model / read Json: 10%
-View Model / business logic: 40%
+View Model / business logic: 30%
 Manual Test: 10%
 Unit Test: 20%
+Refactor:  10%
 
 #### Decisions made to solve certain aspects of the game
 
