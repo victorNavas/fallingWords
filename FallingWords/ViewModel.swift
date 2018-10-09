@@ -1,19 +1,5 @@
 import UIKit
 
-enum Languages {
-    case EN
-    case ES
-}
-
-struct Translation: Decodable {
-    var text_eng: String
-    var text_spa: String
-    
-    func get(language: Languages) -> String {
-        return language == .EN ? text_eng : text_spa
-    }
-}
-
 class ViewModel {
     
     private var translations: [Translation] = []
@@ -21,11 +7,16 @@ class ViewModel {
     private(set) var languageTo: Languages!
     var translation: Translation!
     
+    private(set) var okPoints = 0
+    private(set) var nonOkPoints = 0
+    
+    private(set) var winScore = 10
+    private(set) var looseScore = 3
+    
     init(languageFrom: Languages, languageTo: Languages) {
         self.languageFrom = languageFrom
         self.languageTo = languageTo
         translations = readWordsFromJson()
-        translation = getRandomTranslation()
     }
     
     func getSetOfTranslations(_ number: Int) -> [Translation] {
@@ -34,8 +25,29 @@ class ViewModel {
         return randomTranslations
     }
     
-    private func getRandomTranslation() -> Translation {
-        return translations.randomElement() ?? Translation(text_eng: "Error", text_spa: "Error")
+    func addOkPoint() {
+        okPoints += 1
+    }
+    
+    func addNonOkPoint() {
+        nonOkPoints += 1
+    }
+    
+    func userHasWin() -> Bool {
+        return okPoints >= winScore
+    }
+    
+    func userHasLost() -> Bool {
+        return nonOkPoints >= looseScore
+    }
+    
+    func setRandomTranslation() {
+        translation = translations.randomElement() ?? Translation(text_eng: "Error", text_spa: "Error")
+    }
+    
+    func restart() {
+        okPoints = 0
+        nonOkPoints = 0
     }
     
     private func readWordsFromJson() -> [Translation] {
@@ -54,17 +66,5 @@ class ViewModel {
             }
         }
         return translations
-    }
-}
-
-
-extension Array {
-    /// Picks `n` random elements (partial Fisher-Yates shuffle approach)
-    subscript (randomPick n: Int) -> [Element] {
-        var copy = self
-        for i in stride(from: count - 1, to: count - n - 1, by: -1) {
-            copy.swapAt(i, Int(arc4random_uniform(UInt32(i + 1))))
-        }
-        return Array(copy.suffix(n))
     }
 }

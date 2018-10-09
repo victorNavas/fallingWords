@@ -7,40 +7,42 @@ class ViewController: UIViewController {
     @IBOutlet weak var containerView: UIView!
     @IBOutlet weak var scoreOk: UILabel!
     @IBOutlet weak var scoreNotOk: UILabel!
+    @IBOutlet weak var resultLabel: UILabel!
+    @IBOutlet weak var resetButton: UIButton!
     
     var viewModel: ViewModel!
     var isWordMoving = false
+    var userHasAnswered = false
+    
     var movingTranlation: Translation?
+    var isCorrectTranslation: Bool {
+        return movingTranlation?.text_eng == viewModel.translation.text_eng
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = ViewModel(languageFrom: .ES, languageTo: .EN)
-        wordToTranslateLabel.text = viewModel.translation.get(language: viewModel.languageFrom)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        showAndRemove(viewModel.getSetOfTranslations(5))
+        showNewComination()
     }
     
-    func showAndRemove(_ translations: [Translation]) {
-        var translationsToMove = translations
-        self.movingTranlation = translationsToMove.first
-        self.newWordLabel.text = self.movingTranlation?.get(language: self.viewModel.languageTo)
-        
+    func showNewComination() {
+        self.view.layoutIfNeeded()
+        viewModel.setRandomTranslation()
+        wordToTranslateLabel.text = viewModel.translation.get(language: viewModel.languageFrom)
+        movingTranlation = viewModel.getSetOfTranslations(5).randomElement()
+        newWordLabel.text = movingTranlation?.get(language: self.viewModel.languageTo)
         moveWordDown {
-            guard !translationsToMove.isEmpty else {
-                return
+            self.isWordMoving = false
+            
+            if !self.userHasAnswered {
+                self.viewModel.addNonOkPoint()
+                self.updateScore()
             }
-            translationsToMove.removeFirst()
-            print(translationsToMove.count)
-            self.resetInitialPosition {
-                self.movingTranlation = translationsToMove.first
-                self.newWordLabel.text = self.movingTranlation?.get(language: self.viewModel.languageTo)
-                self.moveWordDown(completion: {
-                    self.showAndRemove(translationsToMove)
-                })
-            }
+            self.userHasAnswered = false
         }
     }
 
@@ -49,33 +51,57 @@ class ViewController: UIViewController {
         
         UIView.animate(withDuration: 3.0, delay: 0.0, options: [.curveEaseInOut , .allowUserInteraction], animations: {
             self.isWordMoving = true
-            self.newWordLabel.center = CGPoint(x: self.containerView.frame.midX, y: self.containerView.frame.maxY + 8)
+            self.newWordLabel.center = CGPoint(x: self.containerView.frame.midX, y: self.containerView.frame.maxY + 10)
         }, completion: { finished in
             self.isWordMoving = false
             completion()
         })
     }
     
-    func resetInitialPosition(completion: @escaping () -> Void) {
+    func resetInitialPosition() {
         if isWordMoving { return }
         
         UIView.animate(withDuration: 0.0, delay: 0.0, options: [.curveEaseInOut , .allowUserInteraction], animations: {
             self.newWordLabel.center = CGPoint(x: self.containerView.frame.midX, y: self.containerView.frame.minY)
         }, completion: { finished in
-            self.isWordMoving = false
-            completion()
         })
+    }
+    
+    func updateScore() {
+        userHasAnswered = true
+        isWordMoving = false
+        scoreOk.text = "\(viewModel.okPoints)/\(viewModel.winScore)"
+        scoreNotOk.text = "\(viewModel.nonOkPoints)/\(viewModel.looseScore)"
+        resetInitialPosition()
+        
+        if viewModel.userHasWin() {
+            resultLabel.text = "👏 👌\n You win!"
+            resultLabel.isHidden = false
+            resetButton.isHidden = false
+        } else if viewModel.userHasLost() {
+            resultLabel.text = "😭 🤷‍♀️\n Looser!"
+            resultLabel.isHidden = false
+            resetButton.isHidden = false
+        } else {
+            showNewComination()
+        }
     }
 
     @IBAction func okPressed(_ sender: Any) {
-        if !isWordMoving { return }
-//        if translation.text_eng == viewModel.translation.text_eng {
-//            //                this is the correct translation!
-//        }
+        isCorrectTranslation ? viewModel.addOkPoint() : viewModel.addNonOkPoint()
+        updateScore()
     }
     
     @IBAction func notOkPressed(_ sender: Any) {
-        if !isWordMoving { return }
+        !isCorrectTranslation ? viewModel.addOkPoint() : viewModel.addNonOkPoint()
+        updateScore()
+    }
+    
+    @IBAction func restartPressed(_ sender: Any) {
+        resultLabel.isHidden = true
+        resetButton.isHidden = true
+        viewModel.restart()
+        updateScore()
     }
 }
 
