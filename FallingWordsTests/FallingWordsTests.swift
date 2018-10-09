@@ -25,9 +25,22 @@ class FallingWordsTests: XCTestCase {
         XCTAssertEqual(viewModel.nonOkPoints, 1)
     }
     
-    func testIsCorrectTranslation() {
-        viewModel.setPairOfTranslations(number: 5)
-        XCTAssertFalse(viewModel.isCorrectTranslation)
+    func testIsCorrectTranslationTrue() {
+        viewModel.setPairOfTranslations(number: 1)
+        if viewModel.translationToPlay?.text_eng == viewModel.movingTranlation?.text_eng {
+            XCTAssertTrue(viewModel.isCorrectTranslation)
+        } else {
+            XCTAssertFalse(viewModel.isCorrectTranslation)
+        }
+    }
+    
+    func testIsCorrectTranslationFalse() {
+        viewModel.setPairOfTranslations(number: 100)
+        if viewModel.translationToPlay?.text_eng == viewModel.movingTranlation?.text_eng {
+            XCTAssertTrue(viewModel.isCorrectTranslation)
+        } else {
+            XCTAssertFalse(viewModel.isCorrectTranslation)
+        }
     }
 
     func testAddOkOfPointIsIncreased() {
@@ -39,21 +52,21 @@ class FallingWordsTests: XCTestCase {
     func testUserHasWinIsCorrect() {
         XCTAssertEqual(viewModel.okPoints, 0)
         for _ in 1...10 {
-            XCTAssertFalse(viewModel.userHasWin())
+            XCTAssertFalse(viewModel.userHasWin)
             viewModel.addOkPoint()
         }
         XCTAssertEqual(viewModel.okPoints, 10)
-        XCTAssertTrue(viewModel.userHasWin())
+        XCTAssertTrue(viewModel.userHasWin)
     }
     
     func testUserHasLostIsCorrect() {
         XCTAssertEqual(viewModel.nonOkPoints, 0)
         for _ in 1...3 {
-            XCTAssertFalse(viewModel.userHasLost())
+            XCTAssertFalse(viewModel.userHasLost)
             viewModel.addNonOkPoint()
         }
         XCTAssertEqual(viewModel.nonOkPoints, 3)
-        XCTAssertTrue(viewModel.userHasLost())
+        XCTAssertTrue(viewModel.userHasLost)
     }
     
     func testRestartSetAllScoresInitial() {

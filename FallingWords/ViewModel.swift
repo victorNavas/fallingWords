@@ -19,6 +19,14 @@ class ViewModel {
         return movingTranlation?.text_eng == translationToPlay?.text_eng
     }
     
+    var userHasLost: Bool {
+        return nonOkPoints >= looseScore
+    }
+    
+    var userHasWin: Bool {
+        return okPoints >= winScore
+    }
+    
     init(languageFrom: Languages, languageTo: Languages) {
         self.languageFrom = languageFrom
         self.languageTo = languageTo
@@ -36,14 +44,6 @@ class ViewModel {
     
     func addNonOkPoint() {
         nonOkPoints += 1
-    }
-    
-    func userHasWin() -> Bool {
-        return okPoints >= winScore
-    }
-    
-    func userHasLost() -> Bool {
-        return nonOkPoints >= looseScore
     }
     
     func restart() {

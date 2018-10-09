@@ -73,17 +73,19 @@ class ViewController: UIViewController {
     }
     
     func handleWinLoose() {
-        if viewModel.userHasWin() {
-            resultLabel.text = "👏 👌\n You win!"
-            resultLabel.isHidden = false
-            resetButton.isHidden = false
-        } else if viewModel.userHasLost() {
-            resultLabel.text = "😭 🤷‍♀️\n Looser!"
-            resultLabel.isHidden = false
-            resetButton.isHidden = false
+        if viewModel.userHasWin {
+            showResult(with: "👏 👌\n You win!")
+        } else if viewModel.userHasLost {
+            showResult(with: "😭 🤷‍♀️\n Looser!")
         } else {
             showNewComination()
         }
+    }
+    
+    private func showResult(with message: String) {
+        resultLabel.text = message
+        resultLabel.isHidden = false
+        resetButton.isHidden = false
     }
 
     @IBAction func okPressed(_ sender: Any) {
@@ -103,4 +105,3 @@ class ViewController: UIViewController {
         updateScore()
     }
 }
-
