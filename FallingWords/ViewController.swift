@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     
     var movingTranlation: Translation?
     var isCorrectTranslation: Bool {
-        return movingTranlation?.text_eng == viewModel.translation.text_eng
+        return movingTranlation?.text_eng == viewModel.translation?.text_eng
     }
 
     override func viewDidLoad() {
@@ -32,7 +32,7 @@ class ViewController: UIViewController {
     func showNewComination() {
         self.view.layoutIfNeeded()
         viewModel.setRandomTranslation()
-        wordToTranslateLabel.text = viewModel.translation.get(language: viewModel.languageFrom)
+        wordToTranslateLabel.text = viewModel.translation?.get(language: viewModel.languageFrom)
         movingTranlation = viewModel.getSetOfTranslations(5).randomElement()
         newWordLabel.text = movingTranlation?.get(language: self.viewModel.languageTo)
         moveWordDown {

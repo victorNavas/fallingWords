@@ -5,7 +5,7 @@ class ViewModel {
     private var translations: [Translation] = []
     private(set) var languageFrom: Languages!
     private(set) var languageTo: Languages!
-    var translation: Translation!
+    var translation: Translation?
     
     private(set) var okPoints = 0
     private(set) var nonOkPoints = 0
@@ -20,6 +20,7 @@ class ViewModel {
     }
     
     func getSetOfTranslations(_ number: Int) -> [Translation] {
+        guard let translation = translation else { return [] }
         var randomTranslations = translations.filter({ $0.text_eng != translation.text_eng})[randomPick: number]
         randomTranslations.append(translation)
         return randomTranslations
@@ -42,7 +43,7 @@ class ViewModel {
     }
     
     func setRandomTranslation() {
-        translation = translations.randomElement() ?? Translation(text_eng: "Error", text_spa: "Error")
+        translation = translations.randomElement()
     }
     
     func restart() {
@@ -54,16 +55,11 @@ class ViewModel {
         var translations: [Translation] = []
         
         if let path = Bundle.main.path(forResource: "words", ofType: "json") {
-            do {
-                let data = try Data(contentsOf: URL(fileURLWithPath: path))
-                let myStructArray = try JSONDecoder().decode([Translation].self, from: data)
-                myStructArray.forEach { translations.append($0) }
-                return translations
-
-            } catch {
-                // handle error
-                print("failed")
-            }
+            // TODO: remove this force try, for the shake of time we test this manually
+            let data = try! Data(contentsOf: URL(fileURLWithPath: path))
+            let myStructArray = try! JSONDecoder().decode([Translation].self, from: data)
+            myStructArray.forEach { translations.append($0) }
+            return translations
         }
         return translations
     }

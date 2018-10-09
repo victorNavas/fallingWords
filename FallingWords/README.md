@@ -33,4 +33,5 @@ Unit Test: 20%
 3- Apply TDD.
 4- Localise the app
 5- Use the API rather than the JSON local file
+6- Extract the score and speed as params for chose the difficulty of the game (connect with UI)
 
