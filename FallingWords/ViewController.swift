@@ -10,21 +10,41 @@ class ViewController: UIViewController {
     
     var viewModel: ViewModel!
     var isWordMoving = false
+    var movingTranlation: Translation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel = ViewModel(languageFrom: .ES, languageTo: .EN)
+        wordToTranslateLabel.text = viewModel.translation.get(language: viewModel.languageFrom)
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        view.layoutIfNeeded()
-//        viewModel.readWordsFromJson()
+        showAndRemove(viewModel.getSetOfTranslations(5))
+    }
+    
+    func showAndRemove(_ translations: [Translation]) {
+        var translationsToMove = translations
+        self.movingTranlation = translationsToMove.first
+        self.newWordLabel.text = self.movingTranlation?.get(language: self.viewModel.languageTo)
         
-        moveWordDown()
+        moveWordDown {
+            guard !translationsToMove.isEmpty else {
+                return
+            }
+            translationsToMove.removeFirst()
+            print(translationsToMove.count)
+            self.resetInitialPosition {
+                self.movingTranlation = translationsToMove.first
+                self.newWordLabel.text = self.movingTranlation?.get(language: self.viewModel.languageTo)
+                self.moveWordDown(completion: {
+                    self.showAndRemove(translationsToMove)
+                })
+            }
+        }
     }
 
-    func moveWordDown() {
+    func moveWordDown(completion: @escaping () -> Void) {
         if isWordMoving { return }
         
         UIView.animate(withDuration: 3.0, delay: 0.0, options: [.curveEaseInOut , .allowUserInteraction], animations: {
@@ -32,23 +52,26 @@ class ViewController: UIViewController {
             self.newWordLabel.center = CGPoint(x: self.containerView.frame.midX, y: self.containerView.frame.maxY + 8)
         }, completion: { finished in
             self.isWordMoving = false
-            self.resetInitialPosition()
+            completion()
         })
     }
     
-    func resetInitialPosition() {
+    func resetInitialPosition(completion: @escaping () -> Void) {
         if isWordMoving { return }
         
         UIView.animate(withDuration: 0.0, delay: 0.0, options: [.curveEaseInOut , .allowUserInteraction], animations: {
             self.newWordLabel.center = CGPoint(x: self.containerView.frame.midX, y: self.containerView.frame.minY)
         }, completion: { finished in
             self.isWordMoving = false
-            self.moveWordDown()
+            completion()
         })
     }
 
     @IBAction func okPressed(_ sender: Any) {
         if !isWordMoving { return }
+//        if translation.text_eng == viewModel.translation.text_eng {
+//            //                this is the correct translation!
+//        }
     }
     
     @IBAction func notOkPressed(_ sender: Any) {
