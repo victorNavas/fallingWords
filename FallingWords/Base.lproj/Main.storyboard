@@ -30,11 +30,49 @@
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ncm-AX-ezf">
+                                        <rect key="frame" x="8" y="28" width="30" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="👍"/>
+                                        <connections>
+                                            <action selector="okPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jWt-47-sZf"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hwP-FR-nkz">
+                                        <rect key="frame" x="8" y="69" width="30" height="33"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <state key="normal" title="❌"/>
+                                        <connections>
+                                            <action selector="notOkPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="InX-GO-5zY"/>
+                                        </connections>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="j2D-e4-CQ7">
+                                        <rect key="frame" x="46" y="34" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ml-Gd-VgY">
+                                        <rect key="frame" x="46" y="75" width="42" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstItem="j2D-e4-CQ7" firstAttribute="leading" secondItem="Ncm-AX-ezf" secondAttribute="trailing" constant="8" id="8KE-EP-3eE"/>
+                                    <constraint firstItem="hwP-FR-nkz" firstAttribute="top" secondItem="Ncm-AX-ezf" secondAttribute="bottom" constant="8" id="AB5-DA-VQJ"/>
+                                    <constraint firstItem="hwP-FR-nkz" firstAttribute="leading" secondItem="Pwl-hO-glW" secondAttribute="leading" constant="8" id="Byk-gf-lWQ"/>
+                                    <constraint firstItem="rjF-uM-gx6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="j2D-e4-CQ7" secondAttribute="trailing" constant="8" symbolic="YES" id="E0a-iD-Pnm"/>
+                                    <constraint firstItem="rjF-uM-gx6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="3ml-Gd-VgY" secondAttribute="trailing" constant="8" symbolic="YES" id="Qp1-gY-TJu"/>
                                     <constraint firstItem="rjF-uM-gx6" firstAttribute="centerX" secondItem="Pwl-hO-glW" secondAttribute="centerX" id="SIj-DS-08v"/>
                                     <constraint firstItem="rjF-uM-gx6" firstAttribute="top" secondItem="Pwl-hO-glW" secondAttribute="top" constant="20" id="V4D-pS-XOp"/>
+                                    <constraint firstItem="3ml-Gd-VgY" firstAttribute="centerY" secondItem="hwP-FR-nkz" secondAttribute="centerY" id="dhA-9t-IGa"/>
+                                    <constraint firstItem="3ml-Gd-VgY" firstAttribute="leading" secondItem="hwP-FR-nkz" secondAttribute="trailing" constant="8" id="oGJ-lP-qOC"/>
+                                    <constraint firstItem="Ncm-AX-ezf" firstAttribute="top" secondItem="Pwl-hO-glW" secondAttribute="top" constant="28" id="ssI-5h-9VT"/>
+                                    <constraint firstItem="Ncm-AX-ezf" firstAttribute="leading" secondItem="Pwl-hO-glW" secondAttribute="leading" constant="8" id="uyG-bT-3N2"/>
+                                    <constraint firstItem="j2D-e4-CQ7" firstAttribute="centerY" secondItem="Ncm-AX-ezf" secondAttribute="centerY" id="xs7-lG-iP7"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="P1e-Y1-DNh">
@@ -98,6 +136,8 @@
                     <connections>
                         <outlet property="containerView" destination="Pwl-hO-glW" id="xEt-Mt-1f5"/>
                         <outlet property="newWordLabel" destination="rjF-uM-gx6" id="peh-X5-tKB"/>
+                        <outlet property="scoreNotOk" destination="3ml-Gd-VgY" id="fyY-JB-uTu"/>
+                        <outlet property="scoreOk" destination="j2D-e4-CQ7" id="5jn-hg-YDj"/>
                         <outlet property="wordToTranslateLabel" destination="NOq-dW-Rhb" id="O91-rv-LIB"/>
                     </connections>
                 </viewController>
