@@ -69,6 +69,7 @@
 		9E7FD986216D104000DA8750 = {
 			isa = PBXGroup;
 			children = (
+				9E1BCCDB216D5994009B5CD6 /* README.md */,
 				9E7FD991216D104000DA8750 /* FallingWords */,
 				9E7FD9A6216D104200DA8750 /* FallingWordsTests */,
 				9E7FD990216D104000DA8750 /* Products */,
@@ -87,7 +88,6 @@
 		9E7FD991216D104000DA8750 /* FallingWords */ = {
 			isa = PBXGroup;
 			children = (
-				9E1BCCDB216D5994009B5CD6 /* README.md */,
 				9E7FD9B2216D1D7A00DA8750 /* words.json */,
 				9E7FD992216D104000DA8750 /* AppDelegate.swift */,
 				9E7FD994216D104000DA8750 /* ViewController.swift */,
