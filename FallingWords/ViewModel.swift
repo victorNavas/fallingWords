@@ -5,7 +5,9 @@ class ViewModel {
     private var translations: [Translation] = []
     private(set) var languageFrom: Languages!
     private(set) var languageTo: Languages!
-    var translation: Translation?
+    
+    var translationToPlay: Translation?
+    var movingTranlation: Translation?
     
     private(set) var okPoints = 0
     private(set) var nonOkPoints = 0
@@ -13,14 +15,26 @@ class ViewModel {
     private(set) var winScore = 10
     private(set) var looseScore = 3
     
+    var isCorrectTranslation: Bool {
+        return movingTranlation?.text_eng == translationToPlay?.text_eng
+    }
+    
     init(languageFrom: Languages, languageTo: Languages) {
         self.languageFrom = languageFrom
         self.languageTo = languageTo
         translations = readWordsFromJson()
     }
     
-    func getSetOfTranslations(_ number: Int) -> [Translation] {
-        guard let translation = translation else { return [] }
+    func setTranslationToPlay() {
+        translationToPlay = translations.randomElement()
+    }
+    
+    func setMovingTranslation(number: Int) {
+        movingTranlation = getRandomTranslations(number).randomElement()
+    }
+    
+    func getRandomTranslations(_ number: Int) -> [Translation] {
+        guard let translation = translationToPlay else { return [] }
         var randomTranslations = translations.filter({ $0.text_eng != translation.text_eng})[randomPick: number]
         randomTranslations.append(translation)
         return randomTranslations
@@ -40,10 +54,6 @@ class ViewModel {
     
     func userHasLost() -> Bool {
         return nonOkPoints >= looseScore
-    }
-    
-    func setRandomTranslation() {
-        translation = translations.randomElement()
     }
     
     func restart() {

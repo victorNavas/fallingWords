@@ -14,16 +14,22 @@ class FallingWordsTests: XCTestCase {
     }
 
     func testInitViewModelReadsCorrectlyFromJson() {
-        viewModel.setRandomTranslation()
+        viewModel.setTranslationToPlay()
         // extra one expected, the correct translation
-        XCTAssertEqual(viewModel.getSetOfTranslations(4).count, 5)
-        XCTAssertEqual(viewModel.getSetOfTranslations(10).count, 11)
+        XCTAssertEqual(viewModel.getRandomTranslations(4).count, 5)
+        XCTAssertEqual(viewModel.getRandomTranslations(10).count, 11)
     }
     
     func testAddNonOkOfPointIsIncreased() {
         XCTAssertEqual(viewModel.nonOkPoints, 0)
         viewModel.addNonOkPoint()
         XCTAssertEqual(viewModel.nonOkPoints, 1)
+    }
+    
+    func testIsCorrectTranslation() {
+        viewModel.setTranslationToPlay()
+        viewModel.setMovingTranslation(number: 40)
+        XCTAssertFalse(viewModel.isCorrectTranslation)
     }
 
     func testAddOkOfPointIsIncreased() {

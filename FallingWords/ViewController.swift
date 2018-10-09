@@ -14,10 +14,7 @@ class ViewController: UIViewController {
     var isWordMoving = false
     var userHasAnswered = false
     
-    var movingTranlation: Translation?
-    var isCorrectTranslation: Bool {
-        return movingTranlation?.text_eng == viewModel.translation?.text_eng
-    }
+//    var movingTranlation: Translation?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,10 +28,10 @@ class ViewController: UIViewController {
     
     func showNewComination() {
         self.view.layoutIfNeeded()
-        viewModel.setRandomTranslation()
-        wordToTranslateLabel.text = viewModel.translation?.get(language: viewModel.languageFrom)
-        movingTranlation = viewModel.getSetOfTranslations(5).randomElement()
-        newWordLabel.text = movingTranlation?.get(language: self.viewModel.languageTo)
+        viewModel.setTranslationToPlay()
+        wordToTranslateLabel.text = viewModel.translationToPlay?.get(language: viewModel.languageFrom)
+        viewModel.setMovingTranslation(number: 5)
+        newWordLabel.text = viewModel.movingTranlation?.get(language: self.viewModel.languageTo)
         moveWordDown {
             self.isWordMoving = false
             
@@ -73,7 +70,10 @@ class ViewController: UIViewController {
         scoreOk.text = "\(viewModel.okPoints)/\(viewModel.winScore)"
         scoreNotOk.text = "\(viewModel.nonOkPoints)/\(viewModel.looseScore)"
         resetInitialPosition()
-        
+        handleWinLoose()
+    }
+    
+    func handleWinLoose() {
         if viewModel.userHasWin() {
             resultLabel.text = "👏 👌\n You win!"
             resultLabel.isHidden = false
@@ -88,12 +88,12 @@ class ViewController: UIViewController {
     }
 
     @IBAction func okPressed(_ sender: Any) {
-        isCorrectTranslation ? viewModel.addOkPoint() : viewModel.addNonOkPoint()
+        viewModel.isCorrectTranslation ? viewModel.addOkPoint() : viewModel.addNonOkPoint()
         updateScore()
     }
     
     @IBAction func notOkPressed(_ sender: Any) {
-        !isCorrectTranslation ? viewModel.addOkPoint() : viewModel.addNonOkPoint()
+        !viewModel.isCorrectTranslation ? viewModel.addOkPoint() : viewModel.addNonOkPoint()
         updateScore()
     }
     
